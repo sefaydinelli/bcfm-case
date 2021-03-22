@@ -11,7 +11,7 @@ def webhook(request_data):
 
 @app.route("/")
 def home():
-    return "<h1> Sefa Aydinelli </h1>"
+    return jsonify(firstname = "Sefa", lastname = "Aydinelli")
 
 @app.route("/whoami")
 def who_am_i():
@@ -25,9 +25,9 @@ def alert():
         request_data = request.get_json(force=True)
         print ("test")
         webhook(request_data)
-        return 'OK'
+        return 'OK', 200
     else:
         return 'Error'
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host = '0.0.0.0')
