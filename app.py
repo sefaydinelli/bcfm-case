@@ -1,17 +1,19 @@
+import os,requests
+from dotenv import load_dotenv
 from flask import Flask, request, jsonify
-import requests
+
+load_dotenv()
 
 app = Flask(__name__)
-webhook_url = 'https://webhook.site/29504f6b-4f91-483d-bc21-587c2f203e61'
 
 def webhook(request_data):
-    requests.post(webhook_url,
+    requests.post(os.getenv("WEBHOOK_URL"),
                     data=request_data, 
                     headers={'Content-Type': 'application/json'})
 
 @app.route("/")
 def home():
-    return jsonify(firstname = "Sefa", lastname = "Aydinelli")
+    return "<h1> Sefa AYDINELLİ </h1>"
 
 @app.route("/whoami")
 def who_am_i():
