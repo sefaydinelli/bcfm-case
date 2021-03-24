@@ -1,0 +1,35 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy container app to Azure Web App - bcacase
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: 'ubuntu-latest'
+
+    steps:
+    - uses: actions/checkout@master
+
+    - uses: azure/docker-login@v1
+      with:
+        login-server: https://mcr.microsoft.com/
+        username: ${{ secrets.AzureAppService_ContainerUsername_6a4155bb3f754fba9654dee9dcfec458 }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_42c06bd688a54cb3a7fb5b5c3d03c327 }}
+
+    - run: |
+        docker build . -t mcr.microsoft.com/${{ secrets.AzureAppService_ContainerUsername_6a4155bb3f754fba9654dee9dcfec458 }}/appsvc/staticsite:${{ github.sha }}
+        docker push mcr.microsoft.com/${{ secrets.AzureAppService_ContainerUsername_6a4155bb3f754fba9654dee9dcfec458 }}/appsvc/staticsite:${{ github.sha }}
+
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'bcacase'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_d64987302ccb44c891d0736898300407 }}
+        images: 'mcr.microsoft.com/${{ secrets.AzureAppService_ContainerUsername_6a4155bb3f754fba9654dee9dcfec458 }}/appsvc/staticsite:${{ github.sha }}'
