@@ -31,3 +31,6 @@ docker-compose up
 ```
 
 - After that, project will be launching at https://localhost:80 .
+
+### Azure Pipeline
+- Project is building with Azure Pipelines and deploying to Azure Web Site : https://bcfmcase.azurewebsites.net/
