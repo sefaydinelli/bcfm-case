@@ -30,4 +30,4 @@ docker-compose build
 docker-compose up
 ```
 
-- After that, project will be launching at https://localhost:5000 .
+- After that, project will be launching at https://localhost:80 .
